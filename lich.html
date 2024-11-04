@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch động</title>
+    <link  rel="stylesheet" href="lich.css" />
+</head>
+<body>
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <span id="prevMonth">&lt;</span>
+            <div id="currentMonthYear"></div>
+            <span id="nextMonth">&gt;</span>
+        </div>
+        <div class="calendar-buttons">
+            <button onclick="goToToday()">Hôm nay</button>
+        </div>
+        <div class="calendar-grid" id="calendarGrid">
+            <!-- Nội dung lịch sẽ được cập nhật qua JavaScript -->
+        </div>
+        <div class="calendar-footer">
+            <button>Hủy</button>
+            <button>Chọn</button>
+        </div>
+    </div>
+
+    <script>
+        const currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+
+        // Cập nhật lịch
+        function updateCalendar() {
+            const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+
+            // Hiển thị tháng và năm
+            document.getElementById("currentMonthYear").textContent = `${monthNames[currentMonth]}, ${currentYear}`;
+
+            // Làm rỗng lịch cũ
+            const calendarGrid = document.getElementById("calendarGrid");
+            calendarGrid.innerHTML = "";
+
+            // Thêm các ngày của tuần
+            const daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+            daysOfWeek.forEach(day => {
+                const dayElement = document.createElement("div");
+                dayElement.classList.add("calendar-day", "header");
+                dayElement.textContent = day;
+                calendarGrid.appendChild(dayElement);
+            });
+
+            // Thêm các ngày trống của tháng trước
+            for (let i = 0; i < firstDayOfMonth; i++) {
+                const emptyDay = document.createElement("div");
+                emptyDay.classList.add("calendar-day", "inactive");
+                calendarGrid.appendChild(emptyDay);
+            }
+
+            // Thêm các ngày trong tháng
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement("div");
+                dayElement.classList.add("calendar-day");
+                
+                // Đánh dấu ngày hôm nay
+                if (day === currentDate.getDate() && currentMonth === currentDate.getMonth() && currentYear === currentDate.getFullYear()) {
+                    dayElement.classList.add("today");
+                }
+
+                dayElement.textContent = day;
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        // Chuyển đến tháng trước
+        document.getElementById("prevMonth").addEventListener("click", () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            updateCalendar();
+        });
+
+        // Chuyển đến tháng sau
+        document.getElementById("nextMonth").addEventListener("click", () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            updateCalendar();
+        });
+
+        // Quay về tháng và năm hiện tại
+        function goToToday() {
+            currentMonth = currentDate.getMonth();
+            currentYear = currentDate.getFullYear();
+            updateCalendar();
+        }
+
+        // Khởi động cập nhật lịch
+        updateCalendar();
+    </script>
+</body>
+</html>
