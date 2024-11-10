@@ -1,40 +1,320 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Khung Giao Diện Đặt Lịch</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="lich.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="lien_he.css">
 </head>
+
 <body>
-    <header class="header">
-        <h1>Liên Hệ Đặt Lịch</h1>
-        <nav class="nav-links">
-            <a href="#">Về Emospa</a>
-            <a href="#">Dịch vụ</a>
-            <a href="#">Hệ thống Emospa</a>
-            <a href="#">Tin tức & Khuyến mãi</a>
-            <a href="#">Liên hệ</a>
-        </nav>
-    </header>
-
-    <main class="main-content">
-        <section class="form-container">
-            <div class="placeholder form">Form đặt lịch</div>
-        </section>
-        
-        <aside class="calendar-container">
-            <div class="placeholder calendar">Lịch</div>
-        </aside>
-    </main>
-
-    <footer class="footer">
-        <p>© 2024 Emospa all rights reserved</p>
-        <div class="social-links">
-            <a href="#">Facebook</a>
-            <a href="#">Instagram</a>
-            <a href="#">Twitter</a>
+    <div class="phan1">
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <span id="prevMonth">&lt;</span>
+                <div id="currentMonthYear"></div>
+                <span id="nextMonth">&gt;</span>
+            </div>
+            <div class="calendar-buttons">
+                <button onclick="goToToday()">Hôm nay</button>
+            </div>
+            <div class="calendar-grid" id="calendarGrid">
+                <!-- Nội dung lịch sẽ được cập nhật qua JavaScript -->
+            </div>
+            <div class="calendar-footer">
+                <button>Hủy</button>
+                <button>Chọn</button>
+            </div>
         </div>
-    </footer>
+
+        <script>
+            const currentDate = new Date();
+            let currentMonth = currentDate.getMonth();
+            let currentYear = currentDate.getFullYear();
+
+            // Cập nhật lịch
+            function updateCalendar() {
+                const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+                const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+
+                // Hiển thị tháng và năm
+                document.getElementById("currentMonthYear").textContent = `${monthNames[currentMonth]}, ${currentYear}`;
+
+                // Làm rỗng lịch cũ
+                const calendarGrid = document.getElementById("calendarGrid");
+                calendarGrid.innerHTML = "";
+
+                // Thêm các ngày của tuần
+                const daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+                daysOfWeek.forEach(day => {
+                    const dayElement = document.createElement("div");
+                    dayElement.classList.add("calendar-day", "header");
+                    dayElement.textContent = day;
+                    calendarGrid.appendChild(dayElement);
+                });
+
+                // Thêm các ngày trống của tháng trước
+                for (let i = 0; i < firstDayOfMonth; i++) {
+                    const emptyDay = document.createElement("div");
+                    emptyDay.classList.add("calendar-day", "inactive");
+                    calendarGrid.appendChild(emptyDay);
+                }
+
+                // Thêm các ngày trong tháng
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayElement = document.createElement("div");
+                    dayElement.classList.add("calendar-day");
+
+                    // Đánh dấu ngày hôm nay
+                    if (day === currentDate.getDate() && currentMonth === currentDate.getMonth() && currentYear === currentDate.getFullYear()) {
+                        dayElement.classList.add("today");
+                    }
+
+                    dayElement.textContent = day;
+                    calendarGrid.appendChild(dayElement);
+                }
+            }
+
+            // Chuyển đến tháng trước
+            document.getElementById("prevMonth").addEventListener("click", () => {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                updateCalendar();
+            });
+
+            // Chuyển đến tháng sau
+            document.getElementById("nextMonth").addEventListener("click", () => {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                updateCalendar();
+            });
+
+            // Quay về tháng và năm hiện tại
+            function goToToday() {
+                currentMonth = currentDate.getMonth();
+                currentYear = currentDate.getFullYear();
+                updateCalendar();
+            }
+
+            // Khởi động cập nhật lịch
+            updateCalendar();
+        </script>
+    </div>
+    <div class="phan2">
+        <div class="container">
+            <div>
+                <div class="tieude"> LIÊN HỆ ĐẶT LỊCH </div>
+                <div> he thong Emospa / PC </div>
+            </div>
+            <div class="welcome">
+                <div class="start">
+                    <img src="Frame 29.png" class="EmoSpa"></img>
+                    <div class="group">
+                        <span>Dịch vụ</span>
+                        <span>Về Emospa</span>
+                        <span> Tin tức & Khuyến mãi</span>
+                    </div>
+                    <div class="dat_lich">Đặt lịch ngay</div>
+                </div>
+                <div class="ttlh">
+                    <div class="left">
+                        <div>
+                            <div class="lien_he">lien he dat lich</div>
+                            <div class="cohoi">Hãy cho EmoSpa có cơ hội phục vụ bạn nhé!</div>
+                        </div>
+                        <div class="thongtin">
+                            <div class="form-group">
+                                <div class="hoten">
+                                    <div> Họ & tên </div>
+                                    <input type="text" name="hoten" id="hoten" placeholder="Nhập họ & tên khách hàng" />
+                                </div>
+                                <div class="sdt">
+                                    <div>Số điện thoại <span style="color: red;">*</span></div>
+                                    <input type="tel" name="sdt" id="sdt" placeholder="0911223344" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="ngay_hen">
+                                    <div>Ngày hẹn</div>
+                                    <input type="date" id="ngay_hen" name="ngay_hen" />
+                                </div>
+                                <div class="gio_hen">
+                                    <div>Giờ hẹn</div>
+                                    <input type="time" name="gio_hen" id="gio_hen" />
+                                </div>
+                            </div>
+                            <div class="email">
+                                <div>Email</div>
+                                <input type="email" id="email" name="email" placeholder="Email của bạn (nếu có)" />
+                            </div>
+                            <div class="loinhan">
+                                <div>
+                                    Lời nhắn
+                                </div>
+                                <textarea id="message"
+                                    placeholder="Bạn có muốn để lại lời nhắn gì cho EmoSpa không?"></textarea>
+                            </div>
+                            <div class="gui">
+                                Gửi đến EmoSpa
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <img src="Image.png" class="right" />
+                    </div>
+                </div>
+            </div>
+            <div class="body">
+                <div>Về Emospa</div>
+                <div>Dịch vụ</div>
+                <div>Hệ thống EmoSpa</div>
+                <div>Tin tức & Khuyến mãi</div>
+                <div>Liên hệ</div>
+            </div>
+
+            <div class="end">
+                <div class="containerEnd">
+                    <div class="EmoSpaEnd">
+                        <img src="Frame 29.png" class="EmoSpa2" />
+                        <div>
+                            <div class="groupImg">
+                                <img src="Frame 56.png" class="X" />
+                                <img src="Frame 55.png" class="faceBook" />
+                                <img src="Frame 54.png" class="instagram" />
+                            </div>
+                            <hr />
+                            <div class="nam">© 2024 EmoSpa edited</div>
+                        </div>
+                    </div>
+                    <div class="gioiThieu">
+                        <div class="Page">
+                            <div class="PageIcon">
+                                <img src="PageHead.png" class="PageHead" />
+
+                                <img class="like" src="SocialAction.png" />
+
+                            </div>
+                            <img src="image11.png" class="image11" />
+                            <div class="trungTam">TRUNG TÂM MASSAGE EMO SPA | Website | www.emospa.vn</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="phan3">
+        <div class="EmoSpaMobile">
+            <div class="Mobile">
+                Hệ thống Emospa / Mobile
+            </div>
+            <div class="lienheEmoSpa">
+                <div class="emospaStart">
+                    <div class="anh_BaGach">
+                        <img src="Frame 29.png" class="EmospaLienhe" />
+                        <img src="Action.png" class="baGach" />
+                    </div>
+                </div>
+
+                <div class="LhCoHoi">
+                    <div class="lien_he1">Liên Hệ </div>
+                    <div class="cohoi1">Hãy cho EmoSpa có cơ hội phục vụ bạn nhé!</div>
+                </div>
+                <div>
+                    <div class="form-group1">
+                        <div class="ho_ten">
+                            <div> ho & ten </div>
+                            <input type="text" name="ho_ten" id="ho_ten" placeholder="nhap ho & ten khach hang" />
+                        </div>
+                        <div class="sdtkhach">
+                            <div>Số điện thoại <span style="color: red;">*</span></div>
+                            <input type="tel" name="sdtkhach" id="sdtkhach" placeholder="0911223344" />
+                        </div>
+
+
+                        <div class="ngay_hen">
+                            <div>Ngày hẹn</div>
+                            <input type="date" id="ngay_hen1" name="ngay_hen1" />
+                        </div>
+                        <div class="gio_hen">
+                            <div>Giờ hẹn</div>
+                            <input type="time" name="gio_hen1" id="gio_hen1" />
+                        </div>
+
+                        <div class="emailkhach">
+                            <div>Email</div>
+                            <input type="email" id="emailkhach" name="emailkhach"
+                                placeholder="email cua ban( neu co)" />
+                        </div>
+                        <div class="loi_nhan">
+                            <div class="nameloinhan">
+                                Lời nhắn
+                            </div>
+                            <textarea id="messageMy"
+                                placeholder="Bạn có muốn để lại lời nhắn gì cho EmoSpa không?"></textarea>
+                        </div>
+                        <div class="guiEmo1">
+                            <div class="guiEmo">
+                                Gửi đến EmoSpa
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="anhVua1">
+                        <img class="anhVua" src="Image12.png" />
+                    </div>
+                    <div class="containerEnd">
+                        <div class="nhomtt">
+                            <div>Về Emospa</div>
+                            <div>Dịch vụ</div>
+                            <div>Hệ thống EmoSpa</div>
+                            <div>Tin tức & Khuyến mãi</div>
+                            <div>Liên hệ</div>
+                        </div>
+                    </div>
+                    <div class="ketthuc">
+                        <div class="emospaket">
+                            <div>
+                                <img src="Frame 29.png" class="EmoSpaend" />
+                            </div>
+                            <div class="PageEndGr">
+                                <div class="PageEnd">
+                                    <div class="PageIconEnd">
+                                        <img src="PageHead.png" class="PageHeadend" />
+                                        <div class="iconEnd">
+                                            <img src="SocialAction.png" class="likepage" />
+                                        </div>
+                                    </div>
+                                    <img src="image11.png" class="imageEnd" />
+                                    <div class="LinktrungTam">TRUNG TÂM MASSAGE EMO SPA | Website | www.emospa.vn</div>
+                                </div>
+                                <div class="grEnd">
+                                    <div class="nhomxahoi">
+                                        <img src="Frame 56.png" class="appX" />
+                                        <img src="Frame 55.png" class="appfaceBook" />
+                                        <img src="Frame 54.png" class="appinstagram" />
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div class="emospaEdit">
+                                    © 2024 EmoSpa edited
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 </body>
-</html> -->
+
+</html>
